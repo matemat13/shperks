@@ -1,17 +1,18 @@
 use <ptf/ptf_rotate.scad>;
 use <cross_sections.scad>;
-use <polysections.scad>;
 use <ring_extrude.scad>;
 use <shape_pie.scad>;
 
 $fn=300;
 
-D = 22;
+D_inner = 17.2;
+D = 17.2;
 R = D/2;
 N = 3;
 
 R0 = 44;
-a = 10;
+a = 5;
+cut = 5.5;
 Ra = R0+a;
 Rs = 2*(a+2*N);
 s = R/R0;
@@ -37,11 +38,12 @@ scale([s, s, s])
     intersection()
     {
         ring_extrude(shape_pts, radius = Ra, twist = 3*360);
-        translate([0,0,-25]) cylinder(h=50,r=R0+1);
-//        rotate_extrude(convexity = 10, $fn = 30)
-//            {
-//                translate([R0+1.05*Rs, 0])
-//                circle(r = Rs, $fn = 30);
-//            }
+        /* translate([0,0,-25]) cylinder(h=50,r=R0+1); */
+        rotate_extrude(convexity = 10, $fn = 100)
+        {
+          r = 1.8*a;
+          translate([R0-a+r+cut, 0])
+          circle(r = r, $fn = 100);
+        }
     }
 }
